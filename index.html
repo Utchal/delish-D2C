@@ -117,16 +117,7 @@
                 <div class="relative h-[500px] lg:h-[600px] rounded-2xl overflow-hidden shadow-2xl bg-gray-50 flex items-center justify-center">
                     <img src="images/hero.jpg" alt="Premium frozen berries" class="w-full h-full object-cover rounded-2xl">
                     
-                    <div id="hero-loading" class="absolute inset-0 flex flex-col items-center justify-center bg-white z-20">
-                        <div class="w-12 h-12 border-4 border-rose-100 border-t-rose-600 rounded-full animate-spin"></div>
-                        <p class="mt-4 text-sm font-medium text-gray-500 uppercase tracking-widest">Preparing Visual...</p>
-                    </div>
-
-                    <div id="hero-error" class="hidden absolute inset-0 flex flex-col items-center justify-center bg-rose-50 px-8 text-center z-20">
-                        <i class="fa-solid fa-circle-exclamation text-rose-400 text-4xl mb-4"></i>
-                        <p class="text-rose-900 font-bold">Nature's Best, Frozen in Time</p>
-                        <p class="text-rose-700 text-sm mt-2">Could not load visual, but the quality remains unmatched.</p>
-                    </div>
+                
                 </div>
             </div>
         </div>
@@ -432,34 +423,7 @@
 </footer>
 
 <script>
-    const apiKey = ""; 
-
-    async function fetchWithRetry(url, options, maxRetries = 5) {
-        for (let i = 0; i < maxRetries; i++) {
-            try {
-                const response = await fetch(url, options);
-                if (response.status === 429) {
-                    const delay = Math.pow(2, i) * 1000 + Math.random() * 1000;
-                    await new Promise(resolve => setTimeout(resolve, delay));
-                    continue; 
-                }
-                if (!response.ok) throw new Error(`API error ${response.status}`);
-                return response; 
-            } catch (error) {
-                if (i === maxRetries - 1) throw error;
-                const delay = Math.pow(2, i) * 1000 + Math.random() * 1000;
-                await new Promise(resolve => setTimeout(resolve, delay));
-            }
-        }
-    }
-
-    async function generateHeroImage() {
-        const imageElement = document.getElementById('hero-image');
-        const loadingOverlay = document.getElementById('hero-loading');
-        const errorOverlay = document.getElementById('hero-error');
-
-        const prompt = "A luxurious, high-end close-up of mixed frozen blueberries and raspberries with crystalline ice frost on them, professional food photography, shallow depth of field, vibrant colors, white minimalist background, soft natural lighting.";
-        const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-image-preview:generateContent?key=${apiKey}`;
+    
         
         try {
             const response = await fetchWithRetry(apiUrl, {
@@ -491,17 +455,7 @@
         }
     }
 
-    window.onload = generateHeroImage;
-
-    // Smooth navigation highlighting
-    window.addEventListener('scroll', () => {
-        const header = document.querySelector('header');
-        if (window.scrollY > 50) {
-            header.classList.add('py-2', 'shadow-md');
-        } else {
-            header.classList.remove('py-2', 'shadow-md');
-        }
-    });
+    
 </script>
 
 </body>
